@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom"
+import { HashRouter, Routes, Route, Link, useLocation } from "react-router-dom"
 import type { CSSProperties } from "react"
 import HomePage from "./pages/HomePage"
 import BeforePage from "./pages/BeforePage"
@@ -69,7 +69,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => (
 )
 
 const App = () => (
-  <BrowserRouter>
+  <HashRouter>
     <Layout>
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -77,7 +77,7 @@ const App = () => (
         <Route path="/after" element={<AfterPage />} />
       </Routes>
     </Layout>
-  </BrowserRouter>
+  </HashRouter>
 )
 
 export default App

@@ -19,6 +19,7 @@ import {
 interface CampaignFormProps {
   value: CampaignFormData
   onChange: (data: CampaignFormData) => void
+  highlightChanges?: boolean
 }
 
 const styles: Record<string, CSSProperties> = {
@@ -325,7 +326,7 @@ const DualRangeSlider = ({
   )
 }
 
-const CampaignForm = ({ value, onChange }: CampaignFormProps) => {
+const CampaignForm = ({ value, onChange, highlightChanges }: CampaignFormProps) => {
   const update = <K extends keyof CampaignFormData>(key: K, val: CampaignFormData[K]) => {
     const next = { ...value, [key]: val }
 
@@ -358,9 +359,33 @@ const CampaignForm = ({ value, onChange }: CampaignFormProps) => {
   const availableAudiences = getAvailableAudiences(value.type)
   const availablePlacements = getAvailablePlacements(value.type)
 
+  const prevValueRef = useRef<CampaignFormData>(value)
+  const [highlightedFields, setHighlightedFields] = useState<Set<string>>(new Set())
+
+  useEffect(() => {
+    if (!highlightChanges) return
+    const prev = prevValueRef.current
+    const changed = new Set<string>()
+    for (const key of Object.keys(value) as (keyof CampaignFormData)[]) {
+      if (JSON.stringify(prev[key]) !== JSON.stringify(value[key])) {
+        changed.add(key)
+      }
+    }
+    if (changed.size > 0) {
+      setHighlightedFields(changed)
+      const timer = setTimeout(() => setHighlightedFields(new Set()), 800)
+      prevValueRef.current = value
+      return () => clearTimeout(timer)
+    }
+    prevValueRef.current = value
+  }, [value, highlightChanges])
+
+  const hl = (field: string): string =>
+    highlightChanges && highlightedFields.has(field) ? "field-highlight" : ""
+
   return (
     <div style={styles.form} data-component="campaign-form">
-      <div>
+      <div className={hl("name")}>
         <label style={styles.label}>Campaign Name</label>
         <input
           style={styles.input}
@@ -370,7 +395,7 @@ const CampaignForm = ({ value, onChange }: CampaignFormProps) => {
         />
       </div>
 
-      <div>
+      <div className={hl("type")}>
         <label style={styles.label}>Campaign Type</label>
         <CustomDropdown
           value={value.type}
@@ -381,7 +406,7 @@ const CampaignForm = ({ value, onChange }: CampaignFormProps) => {
         />
       </div>
 
-      <div>
+      <div className={hl("dailyBudget")}>
         <label style={styles.label}>Daily Budget</label>
         <div style={styles.budgetRow}>
           <input
@@ -402,7 +427,7 @@ const CampaignForm = ({ value, onChange }: CampaignFormProps) => {
         </div>
       </div>
 
-      <div>
+      <div className={hl("audiences")}>
         <label style={styles.label}>
           Target Audience
           {value.type === "DPA" && <span style={styles.lockedBadge}>🔒 Locked by DPA</span>}
@@ -426,7 +451,7 @@ const CampaignForm = ({ value, onChange }: CampaignFormProps) => {
         </div>
       </div>
 
-      <div>
+      <div className={hl("ageRange")}>
         <label style={styles.label}>
           Age Range: {value.ageRange[0]} - {value.ageRange[1]}
         </label>
@@ -438,7 +463,7 @@ const CampaignForm = ({ value, onChange }: CampaignFormProps) => {
         />
       </div>
 
-      <div>
+      <div className={hl("gender")}>
         <label style={styles.label}>Gender</label>
         <div style={styles.radioGroup}>
           {(["ALL", "MALE", "FEMALE"] as Gender[]).map(g => (
@@ -455,7 +480,7 @@ const CampaignForm = ({ value, onChange }: CampaignFormProps) => {
         </div>
       </div>
 
-      <div>
+      <div className={hl("placements")}>
         <label style={styles.label}>Placements</label>
         <div style={styles.checkboxGrid} data-component="placement-checkboxes">
           {availablePlacements.map(p => (
@@ -471,7 +496,7 @@ const CampaignForm = ({ value, onChange }: CampaignFormProps) => {
         </div>
       </div>
 
-      <div>
+      <div className={hl("adFormat")}>
         <label style={styles.label}>Ad Format</label>
         <div style={styles.cardGroup} data-component="ad-format-cards">
           {(Object.keys(AD_FORMAT_LABELS) as AdFormat[]).map(f => (

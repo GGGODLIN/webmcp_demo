@@ -93,8 +93,7 @@ const HomePage = () => (
         <div style={styles.cardIcon}>⚠️</div>
         <div style={styles.cardTitle}>Before WebMCP</div>
         <div style={styles.cardDesc}>
-          AI agent receives raw HTML and must parse it to understand form structure.
-          CSS selectors are fragile, custom components are hard to interpret, and results are unreliable.
+          No WebMCP tools registered. The AI agent must read the DOM tree, locate form elements, and fill them one by one using browser automation.
         </div>
         <div style={styles.cardArrow}>Try it →</div>
       </Link>
@@ -103,15 +102,14 @@ const HomePage = () => (
         <div style={styles.cardIcon}>✅</div>
         <div style={styles.cardTitle}>After WebMCP</div>
         <div style={styles.cardDesc}>
-          AI agent receives a structured tool schema via WebMCP.
-          Function calling produces precise, validated results every time. One call, done.
+          WebMCP tool registered via navigator.modelContext. The AI agent discovers the tool and fills the entire form with one structured call.
         </div>
         <div style={styles.cardArrow}>Try it →</div>
       </Link>
     </div>
 
     <div style={styles.techBadge}>
-      Built with React + Vite + Express + Gemini/Claude API
+      Chrome Canary 146+ · WebMCP · React + Vite
     </div>
   </div>
 )

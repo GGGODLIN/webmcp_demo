@@ -61,17 +61,12 @@ const NavBar = () => {
   )
 }
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
-  const location = useLocation()
-  const isHome = location.pathname === "/"
-
-  return (
-    <>
-      {!isHome && <NavBar />}
-      {children}
-    </>
-  )
-}
+const Layout = ({ children }: { children: React.ReactNode }) => (
+  <>
+    <NavBar />
+    {children}
+  </>
+)
 
 const App = () => (
   <BrowserRouter>

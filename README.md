@@ -47,7 +47,7 @@ Result: **1 step, instant, 100% accurate**
 
 - Chrome Canary 146+
 - Enable `chrome://flags/#enable-webmcp-testing` and relaunch
-- [Model Context Tool Inspector](https://github.com/nicolo-ribaudo/model-context-tool-inspector) Chrome extension
+- [Model Context Tool Inspector](https://github.com/beaufortfrancois/model-context-tool-inspector) Chrome extension
 - Claude Chrome extension (or any AI agent with browser access)
 
 ### Setup

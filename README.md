@@ -27,6 +27,8 @@ The AI agent has no tool available. It must:
 
 Result: **~10 steps, slow, error-prone**
 
+<video src="docs/videos/before-without-webmcp.mp4" width="600" controls></video>
+
 ### After WebMCP (`/after`)
 
 The page registers a `fillCampaignForm` tool via `navigator.modelContext.registerTool()`. The AI agent:
@@ -36,6 +38,8 @@ The page registers a `fillCampaignForm` tool via `navigator.modelContext.registe
 3. All fields fill instantly
 
 Result: **1 step, instant, 100% accurate**
+
+<video src="docs/videos/after-with-webmcp.mp4" width="600" controls></video>
 
 ## How to Run the Demo
 
